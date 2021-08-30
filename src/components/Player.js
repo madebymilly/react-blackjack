@@ -7,13 +7,13 @@ class Player extends Component {
 
   render() {
 
-    const { name, stacksize, moves, bets, doMove, doBet } = this.props;
+    const { name, stacksize, hands, moves, bets, doMove, doBet } = this.props;
 
     return (
       <div className="Player">
         <h3>Player</h3>
         <div className="Player-hands">
-          <Hand />
+          <Hand hand={hands} />
         </div>
         <div className="Player-moves">
           {moves.map(move => 
