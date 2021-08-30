@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/react-blackjack/static/css/main.d87cbb72.chunk.css",
+    "main.js": "/react-blackjack/static/js/main.99806ccd.chunk.js",
+    "main.js.map": "/react-blackjack/static/js/main.99806ccd.chunk.js.map",
+    "runtime-main.js": "/react-blackjack/static/js/runtime-main.70f5d3b2.js",
+    "runtime-main.js.map": "/react-blackjack/static/js/runtime-main.70f5d3b2.js.map",
+    "static/js/2.b8084686.chunk.js": "/react-blackjack/static/js/2.b8084686.chunk.js",
+    "static/js/2.b8084686.chunk.js.map": "/react-blackjack/static/js/2.b8084686.chunk.js.map",
+    "index.html": "/react-blackjack/index.html",
+    "static/css/main.d87cbb72.chunk.css.map": "/react-blackjack/static/css/main.d87cbb72.chunk.css.map",
+    "static/js/2.b8084686.chunk.js.LICENSE.txt": "/react-blackjack/static/js/2.b8084686.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.70f5d3b2.js",
+    "static/js/2.b8084686.chunk.js",
+    "static/css/main.d87cbb72.chunk.css",
+    "static/js/main.99806ccd.chunk.js"
+  ]
+}
