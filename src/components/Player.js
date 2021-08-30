@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Hand from './Hand'
 import Bet from './Bet'
+import '../styling/Player.css'
 
 class Player extends Component {
 
@@ -11,14 +12,14 @@ class Player extends Component {
     return (
       <div className="Player">
         <h3>Player</h3>
+        <div className="Player-info">
+          <p className="Player-name">Name: {name}</p>
+          <p className="Player-stacksize">Stacksize: {stacksize}</p>
+        </div>
         <div className="Player-hands">
           {hands.map(hand =>
             <Hand key={hand.id} hand={hand.cards} moves={moves} doMove={doMove} />
           )}
-        </div>
-        <div className="Player-info">
-          <p className="Player-name">Name: {name}</p>
-          <p className="Player-stacksize">Stacksize: {stacksize}</p>
         </div>
         <div className="Player-bets">
         {bets.map(bet => 

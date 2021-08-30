@@ -1,0 +1,16 @@
+.Player-hands {
+  display: flex;
+  justify-content: space-around;
+}
+
+.Player-info {
+  margin-bottom: 2rem;
+}
+
+.Player-info p {
+  margin: 0;
+}
+
+.Player-bets {
+  margin-bottom: 2rem;
+}

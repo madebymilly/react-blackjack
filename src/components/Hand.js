@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Card from './Card'
 import Move from './Move'
+import '../styling/Hand.css'
 
 class Hand extends Component {
   render() {

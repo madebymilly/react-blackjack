@@ -1,0 +1,8 @@
+.Board {
+  background-color: darkolivegreen;
+  color: white;
+  border: 2px solid black;
+  width: 70vw;
+  height: auto;
+  position: relative;
+}
