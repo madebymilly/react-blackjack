@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import '../styling/Move.css'
 
 class Move extends Component {
 
