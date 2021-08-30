@@ -1,0 +1,2 @@
+(this["webpackJsonpreact-blackjack"]=this["webpackJsonpreact-blackjack"]||[]).push([[0],{10:function(c,e,t){"use strict";t.r(e);var n=t(1),a=t.n(n),r=t(3),s=t.n(r),i=(t(8),t(0));var o=function(){return Object(i.jsx)("div",{className:"App",children:"App"})};s.a.render(Object(i.jsx)(a.a.StrictMode,{children:Object(i.jsx)(o,{})}),document.getElementById("root"))},8:function(c,e,t){}},[[10,1,2]]]);
+//# sourceMappingURL=main.99806ccd.chunk.js.map
