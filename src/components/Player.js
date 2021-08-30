@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Hand from './Hand'
-import Move from './Move'
 import Bet from './Bet'
 
 class Player extends Component {
@@ -13,11 +12,8 @@ class Player extends Component {
       <div className="Player">
         <h3>Player</h3>
         <div className="Player-hands">
-          <Hand hand={hands} />
-        </div>
-        <div className="Player-moves">
-          {moves.map(move => 
-            <Move key={move} move={move} doMove={doMove} />
+          {hands.map(hand =>
+            <Hand key={hand.id} hand={hand.cards} moves={moves} doMove={doMove} />
           )}
         </div>
         <div className="Player-info">

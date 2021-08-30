@@ -52,7 +52,10 @@ class Board extends Component {
             bets={this.props.bets} 
             doMove={this.doMove} 
             doBet={this.doBet}
-            hands={[this.props.deck[2], this.props.deck[3]]}
+            hands={[
+              //{ id: 0, cards: [this.props.deck[2], this.props.deck[3]]}, 
+              { id: 1, cards: [this.props.deck[4], this.props.deck[5]]}
+            ]}
           />
         </div>
       </div>
