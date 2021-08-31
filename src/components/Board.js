@@ -16,7 +16,19 @@ class Board extends Component {
     super(props)
 
     this.state = {
-       //deck: fullDeck.sort(() => 0.5 - Math.random()) // is this state?
+      //deck: fullDeck.sort(() => 0.5 - Math.random()) // is this state?
+      player: {
+        id: 1,
+        name: 'Milly',
+        stacksize: 1000,
+        hands: [
+          { id: 0, cards: [this.props.deck[2], this.props.deck[3]] },
+          { id: 1, cards: [this.props.deck[4], this.props.deck[5]] },
+          { id: 2, cards: [this.props.deck[6], this.props.deck[7]] }
+        ]
+      },
+      bank: { hand: [this.props.deck[0], this.props.deck[1]] },
+      round: { num: 1 }
     }
 
     this.resetGame = this.resetGame.bind(this)
@@ -27,7 +39,7 @@ class Board extends Component {
   resetGame() {
     console.log('reset game')
   }
-  
+
   doMove(move) {
     console.log('do move:', move)
   }
@@ -37,26 +49,24 @@ class Board extends Component {
   }
 
   render() {
-    //console.log(this.state.deck)
-    
+
+    const { moves, bets } = this.props;
+    const { player, bank, round } = this.state;
+
     return (
       <div className="Board">
         <h1>Black Jack!</h1>
-        <Round roundnr={1} resetGame={this.resetGame} />
-        <Bank hand={[this.props.deck[0], this.props.deck[1]]}/>
+        <Round roundnr={round.num} resetGame={this.resetGame} />
+        <Bank hand={bank.hand} />
         <div className="Board-players">
-          <Player 
-            name={'Milly'} 
-            stacksize={1000} 
-            moves={this.props.moves} 
-            bets={this.props.bets} 
-            doMove={this.doMove} 
+          <Player
+            name={player.name}
+            stacksize={player.stacksize}
+            moves={moves}
+            bets={bets}
+            doMove={this.doMove}
             doBet={this.doBet}
-            hands={[
-              { id: 0, cards: [this.props.deck[2], this.props.deck[3]]}, 
-              { id: 1, cards: [this.props.deck[4], this.props.deck[5]]},
-              { id: 2, cards: [this.props.deck[6], this.props.deck[7]]}
-            ]}
+            hands={player.hands}
           />
         </div>
       </div>
