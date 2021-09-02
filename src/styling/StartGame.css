@@ -1,0 +1,21 @@
+.StartGameForm {
+  margin-bottom: 1rem;
+}
+
+.StartGameForm-input {
+  width: 20rem; 
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto 1rem;
+}
+
+.StartGameForm-input label {
+  flex-basis: 50%;
+  display: block;
+  text-align: left;
+}
+
+.StartGameForm-input input {
+  flex-basis: 50%;
+  display: block;
+}
