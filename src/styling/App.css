@@ -18,4 +18,9 @@ button {
   color: white;
   cursor: pointer;
   border: 0;
+  margin: 0 0.2rem;
+}
+
+button:hover {
+  background-color: green;
 }
