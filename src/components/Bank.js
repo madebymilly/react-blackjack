@@ -1,5 +1,5 @@
 import React from 'react'
-import Card from './Card'
+import Hand from './Hand'
 
 function Bank(props) {
   return (
@@ -7,9 +7,7 @@ function Bank(props) {
       <h3>Bank</h3>
       <div className="Bank-hand">
         <div className="Bank-cards">
-          {props.hand.map((card, i) => 
-            <Card key={i} card={card} />
-          )}
+          <Hand hand={props.hand} moves={false} />
         </div>
       </div>
     </div>

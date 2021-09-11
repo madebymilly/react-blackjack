@@ -13,7 +13,6 @@ class Hand extends Component {
     return handValue;
   }
   render() {
-    console.log(this.props.hand)
     return (
       <div className="Hand">
         <div className="Hand-cards">
@@ -22,11 +21,13 @@ class Hand extends Component {
           )}
           <p className="Hand-total">Total: {this.getHandValue(this.props.hand)}</p>
         </div>
-        <div className="Hand-moves">
-          {this.props.moves.map(move => 
-            <Move key={move} move={move} doMove={this.props.doMove} />
-          )}
-        </div>
+        {this.props.moves &&
+          <div className="Hand-moves">
+            {this.props.moves.map(move => 
+              <Move key={move} move={move} doMove={this.props.doMove} />
+            )}
+          </div>
+        }
       </div>
     )
   }

@@ -57,9 +57,17 @@ class Board extends Component {
     }))
   }
 
-  dealCard(to, from) {
+  dealCard() {
     console.log('deal card');
-
+    const tempDeck = this.state.deck;
+    const randomIndex = Math.floor(Math.random() * tempDeck.length);
+    console.log('tempdeck-length', tempDeck.length, 'randomindex', randomIndex);
+    const card = tempDeck[randomIndex];
+    console.log('card', card);
+    tempDeck.splice(randomIndex, 1);
+    console.log('deck', tempDeck);
+    this.setState({ deck: tempDeck })
+    return card;
   }
 
   doMove(move) {
@@ -72,8 +80,8 @@ class Board extends Component {
     if ( !this.state.currentRound.active ) {
       const newRoundNum = this.state.currentRound.num + 1;
       const newStacksize = this.state.player.stacksize - bet;
-      const dealtCardsToPlayer = [DECK[2], DECK[3]];
-      const dealtCardToBank = [DECK[0]];
+      const dealtCardsToPlayer = [this.dealCard(), this.dealCard()];
+      const dealtCardToBank = [this.dealCard()];
       this.setState(prevState => ({
         currentRound: { ...prevState.currentRound, num: newRoundNum, bet: bet, active: true },
         player: { ...prevState.player, stacksize: newStacksize, hands: [{ id: 0, cards: dealtCardsToPlayer }] },
