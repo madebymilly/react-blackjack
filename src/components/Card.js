@@ -5,7 +5,6 @@ import { renderSuitIcon } from '../js/helpers.js'
 function Card(props) {
   return (
     <div className="Card">
-      {/* {`${props.card.rank} of ${props.card.suit} (value: ${props.card.value})`} */}
       {props.card.rank} of {renderSuitIcon(props.card.suit)} (value: {props.card.value})
     </div>
   )

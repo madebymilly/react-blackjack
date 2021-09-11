@@ -12,7 +12,7 @@ const deckOfCards = [
   {
     "suit": "hearts",
     "rank": 4,
-    "value": 2
+    "value": 4
   },
   {
     "suit": "hearts",
