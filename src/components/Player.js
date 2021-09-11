@@ -7,7 +7,7 @@ class Player extends Component {
 
   render() {
 
-    const { name, stacksize, hands, moves, bets, doMove, doBet } = this.props;
+    const { name, stacksize, hands, moves, bets, doMove, doBet, roundActive } = this.props;
 
     return (
       <div className="Player">
@@ -21,11 +21,13 @@ class Player extends Component {
             <Hand key={hand.id} hand={hand.cards} moves={moves} doMove={doMove} />
           )}
         </div>
-        <div className="Player-bets">
-        {bets.map(bet => 
-            <Bet key={bet} bet={bet} doBet={doBet} />
-          )}
-        </div>
+        {!roundActive &&
+          <div className="Player-bets">
+          {bets.map(bet => 
+              <Bet key={bet} bet={bet} doBet={doBet} />
+            )}
+          </div>
+        }
       </div>
     )
   }
