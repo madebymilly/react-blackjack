@@ -4,30 +4,64 @@ import Move from './Move'
 import '../styling/Hand.css'
 
 class Hand extends Component {
-  getHandValue = (hand) => {
+  getHandValue = () => {
     let handValue = 0;
-    hand.map(
+    this.props.hand.map(
       (card, i) =>
         handValue += card.value
     )
     return handValue;
   }
+  getPossibleMoves = () => {
+    let moves = [...this.props.moves];
+    // if value of first two cards is the same:
+    if ( this.props.hand[0].value === this.props.hand[1].value ) {
+      moves.push('split');
+    }
+    // if value of first two cards together is 9, 10 or 11:
+    const totalValueFirstTwoCards = this.props.hand[0].value + this.props.hand[1].value
+    if (  totalValueFirstTwoCards === 9 || totalValueFirstTwoCards === 10 || totalValueFirstTwoCards === 11 ) {
+      moves.push('double');
+    }
+    return moves;
+  }
+  doMove = (move) => {
+    switch(move) {
+      case 'hit':
+        console.log('HIT');
+        this.props.doMoveHit(this.props.id);
+        break;
+      case 'pass':
+        console.log('PASS');
+        this.props.doMovePass();
+        break;
+      case 'split':
+        console.log('SPLIT');
+        break;
+      case 'double':
+        console.log('DOUBLE');
+        break;
+      default:
+        console.log('default')
+    }
+  }
   render() {
+    const moves = (this.props.moves && this.props.roundActive)
+      ? <div className="Hand-moves">
+        {this.getPossibleMoves().map(move => 
+          <Move key={move} move={move} doMovePass={this.props.doMovePass} doMoveHit={this.props.doMoveHit} doMove={this.doMove} />
+        )}
+      </div>
+      : '';
     return (
       <div className="Hand">
         <div className="Hand-cards">
           {this.props.hand.map((card, i) => 
             <Card key={i} card={card} />
           )}
-          <p className="Hand-total">Total: {this.getHandValue(this.props.hand)}</p>
+          <p className="Hand-total">Total: {this.getHandValue()}</p>
         </div>
-        {this.props.moves &&
-          <div className="Hand-moves">
-            {this.props.moves.map(move => 
-              <Move key={move} move={move} doMove={this.props.doMove} />
-            )}
-          </div>
-        }
+        {moves}
       </div>
     )
   }

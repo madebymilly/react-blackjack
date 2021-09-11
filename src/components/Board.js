@@ -11,7 +11,7 @@ const DECK = fullDeck.sort(() => 0.5 - Math.random());
 class Board extends Component {
   static defaultProps = {
     bets: [10, 25, 50, 100, 200],
-    moves: ['hit', 'pass', 'split', 'double']
+    moves: ['hit', 'pass']
   }
 
   constructor(props) {
@@ -26,9 +26,9 @@ class Board extends Component {
         stacksize: 1000, // for testing purpose set to 1000 (should be 0)
         hands: []
         // hands: [
-        //   { id: 0, cards: [DECK[2], DECK[3]] },
-        //   { id: 1, cards: [DECK[4], DECK[5]] },
-        //   { id: 2, cards: [DECK[6], DECK[7]] }
+        //   { id: 0, cards: [DECK[2], DECK[3]], done: false },
+        //   { id: 1, cards: [DECK[4], DECK[5]], done: false },
+        //   { id: 2, cards: [DECK[6], DECK[7]], done: false }
         // ]
       },
       bank: { hand: [] },
@@ -40,7 +40,8 @@ class Board extends Component {
     this.resetGame = this.resetGame.bind(this)
     this.startGame = this.startGame.bind(this)
     this.dealCard = this.dealCard.bind(this)
-    this.doMove = this.doMove.bind(this)
+    this.doMoveHit = this.doMoveHit.bind(this)
+    this.doMovePass = this.doMovePass.bind(this)
     this.doBet = this.doBet.bind(this)
     
   }
@@ -70,8 +71,42 @@ class Board extends Component {
     return card;
   }
 
-  doMove(move) {
-    console.log('do move:', move)
+  // TODO: consider moving this to Move.js or Hand.js
+  doMoveHit(id) {
+    console.log('do move hit')
+    // give this hand a new card
+    const newCard = this.dealCard();
+    // map trough all hands, if hand has the right id, than return hand + new card
+    const tempHands = this.state.player.hands.map(hand =>
+      hand.id === id
+        ? { ...hand, cards: [...hand.cards, newCard] }
+        : hand
+    );
+    this.setState(prevState => ({
+      player: {...prevState.player, hands: tempHands}
+    }))
+  }
+
+  // TODO consider moving this to Move.js or Hand.js
+  doMovePass() {
+    console.log('do move pass')
+    // TODO: check if all hands are done, then endRound
+    this.endRound();
+  }
+
+  endRound() {
+    // set currentRound to inactive
+    // bank gets cards till 17
+    // compare bank & player hands
+    // show winnings
+    // update stacksize
+    this.setState(prevState => ({
+      currentRound: { ...prevState.currentRound, active: false }
+    }))
+  }
+
+  startRound() {
+
   }
 
   doBet(bet) {
@@ -108,10 +143,11 @@ class Board extends Component {
                 stacksize={player.stacksize}
                 moves={moves}
                 bets={bets}
-                doMove={this.doMove}
                 doBet={this.doBet}
                 hands={player.hands}
                 roundActive={round.active}
+                doMoveHit={this.doMoveHit}
+                doMovePass={this.doMovePass}
               />
             </div>
           </div>

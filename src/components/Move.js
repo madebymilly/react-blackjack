@@ -7,10 +7,10 @@ class Move extends Component {
     super(props)
     this.handleMove = this.handleMove.bind(this)
   }
-  
+
   handleMove(e) {
     e.preventDefault();
-    this.props.doMove(this.props.move);
+    this.props.doMove(this.props.move)
   }
 
   render() {
