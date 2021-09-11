@@ -10,7 +10,7 @@ class Move extends Component {
 
   handleMove(e) {
     e.preventDefault();
-    this.props.doMove(this.props.move)
+    this.props.handleMove(this.props.move)
   }
 
   render() {

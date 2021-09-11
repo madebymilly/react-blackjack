@@ -25,31 +25,14 @@ class Hand extends Component {
     }
     return moves;
   }
-  doMove = (move) => {
-    switch(move) {
-      case 'hit':
-        console.log('HIT');
-        this.props.doMoveHit(this.props.id);
-        break;
-      case 'pass':
-        console.log('PASS');
-        this.props.doMovePass();
-        break;
-      case 'split':
-        console.log('SPLIT');
-        break;
-      case 'double':
-        console.log('DOUBLE');
-        break;
-      default:
-        console.log('default')
-    }
+  handleMove = (move) => {
+    this.props.doMove(move, this.props.id);
   }
   render() {
     const moves = (this.props.moves && this.props.roundActive)
       ? <div className="Hand-moves">
         {this.getPossibleMoves().map(move => 
-          <Move key={move} move={move} doMovePass={this.props.doMovePass} doMoveHit={this.props.doMoveHit} doMove={this.doMove} />
+          <Move key={move} move={move} handleMove={this.handleMove} />
         )}
       </div>
       : '';
