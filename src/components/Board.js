@@ -34,7 +34,6 @@ class Board extends Component {
       bank: { hand: [] },
       // bank: { hand: [DECK[0], DECK[1]] },
       currentRound: { num: 0, bet: 0, active: false }
-      // rounds: [] // contains all previous rounds
     }
 
     this.resetGame = this.resetGame.bind(this)
@@ -53,20 +52,11 @@ class Board extends Component {
     
   }
 
-  componentDidMount() {
-
-  }
-
-  componentDidUpdate() {
-    
-  }
-
   resetGame() {
     console.log('reset game')
   }
 
   startGame( playerName, playerStacksize ) {
-    console.log('start game!')
     this.setState(prevState => ({
       gameHasStarted: true,
       player: {...prevState.player, name: playerName, stacksize: playerStacksize }
@@ -74,14 +64,10 @@ class Board extends Component {
   }
 
   dealCard() {
-    console.log('deal card');
     const tempDeck = this.state.deck;
     const randomIndex = Math.floor(Math.random() * tempDeck.length);
-    //console.log('tempdeck-length', tempDeck.length, 'randomindex', randomIndex);
     const card = tempDeck[randomIndex];
-    //console.log('card', card);
     tempDeck.splice(randomIndex, 1);
-    //console.log('deck', tempDeck);
     this.setState({ 
       deck: tempDeck 
     });
@@ -107,32 +93,26 @@ class Board extends Component {
     }
   }
 
-  // TODO: consider moving this to Move.js or Hand.js
   doMoveHit(id) {
-    console.log('do move hit')
     const newCard = this.dealCard();
-    // map through all hands, if hand has the right id, than return hand + new card
+    // Map through all hands, if hand has the right id, than return hand + new card:
     const tempHands = this.state.player.hands.map(hand =>
       hand.id === id
         ? { ...hand, cards: [...hand.cards, newCard] }
         : hand
     );
-    // TODO: make function updatePlayerHand:
     this.setState(prevState => ({
       player: {...prevState.player, hands: tempHands}
     }))
   }
 
-  // TODO consider moving this to Move.js or Hand.js
   doMovePass(id) {
-    console.log('do move pass')
-    // map through all hands, if hand has the right id, than set hand to done
+    // Map through all hands, if hand has the right id, than set hand to done:
     const tempHands = this.state.player.hands.map(hand =>
       hand.id === id
         ? { ...hand, done: true }
         : hand
     );
-    // TODO: make function updatePlayerHand:
     this.setState(prevState => ({ 
       player: {...prevState.player, hands: tempHands}
     }), () => 
@@ -150,7 +130,6 @@ class Board extends Component {
   }
 
   checkEndRound() {
-    console.log('check end round')
     let allHandsDone = this.state.player.hands.every( hand => hand.done === true );
     if (allHandsDone) {
       this.endRound();
@@ -159,7 +138,6 @@ class Board extends Component {
 
   getBankCardsTill17() {
     let newCards = [];
-    //let currentBankHandValue = this.state.bank.hand.reduce((acc, obj) => acc + obj.value, 0);
     let currentBankHandValue = this.state.bank.hand[0].value;
     while (currentBankHandValue < 17) {
       const newCard = this.dealCard();
@@ -172,12 +150,7 @@ class Board extends Component {
   }
 
   endRound() {
-    console.log('end round')
-    // compare bank & player hands
-    // show winnings
-    // update stacksize
     const newCardsForBank = this.getBankCardsTill17();
-    console.log('newcardsforbank', newCardsForBank)
     this.setState(prevState => ({
       currentRound: { ...prevState.currentRound, active: false },
       bank: { ...prevState.bank, hand: [...prevState.bank.hand, ...newCardsForBank] }
@@ -185,7 +158,6 @@ class Board extends Component {
   }
 
   startRound() {
-    console.log('start round')
     const newRoundNum = this.state.currentRound.num + 1;
     this.setState(prevState => ({
       currentRound: { ...prevState.currentRound, num: newRoundNum, active: true, bet: 0 },
@@ -195,7 +167,6 @@ class Board extends Component {
   }
 
   doBet(bet) {
-    console.log('do bet:', bet)
     const newStacksize = this.state.player.stacksize - bet;
     this.setState(prevState => ({
       currentRound: { ...prevState.currentRound, bet: bet },
@@ -205,7 +176,6 @@ class Board extends Component {
   }
 
   dealFirstCards() {
-    console.log('deal first cards')
     const dealtCardsToPlayer = [this.dealCard(), this.dealCard()];
     const dealtCardToBank = [this.dealCard()];
     this.setState(prevState => ({

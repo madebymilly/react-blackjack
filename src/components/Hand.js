@@ -14,11 +14,11 @@ class Hand extends Component {
   }
   getPossibleMoves = () => {
     let moves = [...this.props.moves];
-    // if value of first two cards is the same:
+    // If value of first two cards is the same:
     if ( this.props.hand[0].value === this.props.hand[1].value ) {
       moves.push('split');
     }
-    // if value of first two cards together is 9, 10 or 11:
+    // If value of first two cards together is 9, 10 or 11:
     const totalValueFirstTwoCards = this.props.hand[0].value + this.props.hand[1].value
     if (  totalValueFirstTwoCards === 9 || totalValueFirstTwoCards === 10 || totalValueFirstTwoCards === 11 ) {
       moves.push('double');
