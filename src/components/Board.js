@@ -26,9 +26,9 @@ class Board extends Component {
         stacksize: 1000, // for testing purpose set to 1000 (should be 0)
         hands: []
         // hands: [
-        //   { id: 0, cards: [DECK[2], DECK[3]], done: false },
-        //   { id: 1, cards: [DECK[4], DECK[5]], done: false },
-        //   { id: 2, cards: [DECK[6], DECK[7]], done: false }
+        //   { id: 0, cards: [DECK[2], DECK[3]], done: false, winner: false },
+        //   { id: 1, cards: [DECK[4], DECK[5]], done: false, winner: false },
+        //   { id: 2, cards: [DECK[6], DECK[7]], done: false, winner: false }
         // ]
       },
       bank: { hand: [] },
@@ -158,27 +158,29 @@ class Board extends Component {
   }
 
   getBankCardsTill17() {
-    // TODO: refactor!!! (add keys to array until total is...)
-    const currentBankHandValue = this.state.bank.hand.reduce((acc, obj) => acc + obj.value, 0);
-    if (currentBankHandValue < 17) {
+    let newCards = [];
+    //let currentBankHandValue = this.state.bank.hand.reduce((acc, obj) => acc + obj.value, 0);
+    let currentBankHandValue = this.state.bank.hand[0].value;
+    while (currentBankHandValue < 17) {
       const newCard = this.dealCard();
-      console.log(newCard)
-      this.setState(prevState => ({
-        bank: { ...prevState.bank, hand: [...prevState.bank.hand, newCard] }
-      }));
+      console.log(newCards);
+      console.log(newCard);
+      newCards = [...newCards, newCard];
+      currentBankHandValue += newCard.value;
     }
+    return newCards;
   }
 
   endRound() {
     console.log('end round')
-    // set currentRound to inactive
-    // bank gets cards till 17
     // compare bank & player hands
     // show winnings
     // update stacksize
-    this.getBankCardsTill17();
+    const newCardsForBank = this.getBankCardsTill17();
+    console.log('newcardsforbank', newCardsForBank)
     this.setState(prevState => ({
-      currentRound: { ...prevState.currentRound, active: false }
+      currentRound: { ...prevState.currentRound, active: false },
+      bank: { ...prevState.bank, hand: [...prevState.bank.hand, ...newCardsForBank] }
     }))
   }
 
@@ -186,7 +188,9 @@ class Board extends Component {
     console.log('start round')
     const newRoundNum = this.state.currentRound.num + 1;
     this.setState(prevState => ({
-      currentRound: { ...prevState.currentRound, num: newRoundNum, active: true }
+      currentRound: { ...prevState.currentRound, num: newRoundNum, active: true, bet: 0 },
+      player: { ...prevState.player, hands: [] },
+      bank: { ...prevState.bank, hand: [] },    
     }))
   }
 
