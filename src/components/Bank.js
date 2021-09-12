@@ -7,7 +7,7 @@ function Bank(props) {
       <h3>Bank</h3>
       <div className="Bank-hand">
         <div className="Bank-cards">
-          <Hand hand={props.hand} moves={false} />
+          <Hand hand={props.hand} moves={false} bet={false} />
         </div>
       </div>
     </div>

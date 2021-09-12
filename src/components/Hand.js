@@ -38,6 +38,9 @@ class Hand extends Component {
       : '';
     return (
       <div className="Hand">
+        {this.props.bet &&
+          <p className="Hand-bet">Bet: {this.props.bet}</p>
+        }
         <div className="Hand-cards">
           {this.props.hand.map((card, i) => 
             <Card key={i} card={card} />

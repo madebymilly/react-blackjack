@@ -22,7 +22,7 @@ class Player extends Component {
         </div>
         <div className="Player-hands">
           {hands.map(hand =>
-            <Hand key={hand.id} id={hand.id} hand={hand.cards} moves={moves} doMove={doMove} roundActive={round.active}/>
+            <Hand key={hand.id} id={hand.id} hand={hand.cards} moves={moves} doMove={doMove} roundActive={round.active} bet={round.bet}/>
           )}
         </div>
         {!round.active &&

@@ -47,6 +47,7 @@ class Board extends Component {
     this.doMoveDouble = this.doMoveDouble.bind(this)
     this.checkEndRound = this.checkEndRound.bind(this)
     this.endRound = this.endRound.bind(this)
+    this.getBankCardsTill17 = this.getBankCardsTill17.bind(this)
     this.startRound = this.startRound.bind(this)
     this.doBet = this.doBet.bind(this)
     
@@ -156,6 +157,18 @@ class Board extends Component {
     } 
   }
 
+  getBankCardsTill17() {
+    // TODO: refactor!!! (add keys to array until total is...)
+    const currentBankHandValue = this.state.bank.hand.reduce((acc, obj) => acc + obj.value, 0);
+    if (currentBankHandValue < 17) {
+      const newCard = this.dealCard();
+      console.log(newCard)
+      this.setState(prevState => ({
+        bank: { ...prevState.bank, hand: [...prevState.bank.hand, newCard] }
+      }));
+    }
+  }
+
   endRound() {
     console.log('end round')
     // set currentRound to inactive
@@ -163,6 +176,7 @@ class Board extends Component {
     // compare bank & player hands
     // show winnings
     // update stacksize
+    this.getBankCardsTill17();
     this.setState(prevState => ({
       currentRound: { ...prevState.currentRound, active: false }
     }))
