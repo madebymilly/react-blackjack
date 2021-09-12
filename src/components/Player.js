@@ -5,9 +5,13 @@ import '../styling/Player.css'
 
 class Player extends Component {
 
+  handleClick = () => {
+    this.props.startRound();
+  }
+
   render() {
 
-    const { name, stacksize, hands, moves, bets, doBet, roundActive, doMove } = this.props;
+    const { name, stacksize, hands, moves, bets, doBet, round, doMove } = this.props;
 
     return (
       <div className="Player">
@@ -18,10 +22,13 @@ class Player extends Component {
         </div>
         <div className="Player-hands">
           {hands.map(hand =>
-            <Hand key={hand.id} id={hand.id} hand={hand.cards} moves={moves} doMove={doMove} roundActive={roundActive}/>
+            <Hand key={hand.id} id={hand.id} hand={hand.cards} moves={moves} doMove={doMove} roundActive={round.active}/>
           )}
         </div>
-        {!roundActive &&
+        {!round.active &&
+          <button className="Player-start-round" onClick={this.handleClick}>Start New Round</button>
+        }
+        {round.active && round.bet === 0 &&
           <div className="Player-bets">
             {bets.map(bet => 
               <Bet key={bet} bet={bet} doBet={doBet} />

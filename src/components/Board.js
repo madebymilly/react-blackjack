@@ -45,9 +45,18 @@ class Board extends Component {
     this.doMovePass = this.doMovePass.bind(this)
     this.doMoveSplit = this.doMoveSplit.bind(this)
     this.doMoveDouble = this.doMoveDouble.bind(this)
+    this.checkEndRound = this.checkEndRound.bind(this)
     this.endRound = this.endRound.bind(this)
     this.startRound = this.startRound.bind(this)
     this.doBet = this.doBet.bind(this)
+    
+  }
+
+  componentDidMount() {
+
+  }
+
+  componentDidUpdate() {
     
   }
 
@@ -101,12 +110,13 @@ class Board extends Component {
   doMoveHit(id) {
     console.log('do move hit')
     const newCard = this.dealCard();
-    // map trough all hands, if hand has the right id, than return hand + new card
+    // map through all hands, if hand has the right id, than return hand + new card
     const tempHands = this.state.player.hands.map(hand =>
       hand.id === id
         ? { ...hand, cards: [...hand.cards, newCard] }
         : hand
     );
+    // TODO: make function updatePlayerHand:
     this.setState(prevState => ({
       player: {...prevState.player, hands: tempHands}
     }))
@@ -115,9 +125,19 @@ class Board extends Component {
   // TODO consider moving this to Move.js or Hand.js
   doMovePass(id) {
     console.log('do move pass')
-    // set current hand on 'done'
-    // TODO: check if all hands are done, then endRound
-    this.endRound();
+    // map through all hands, if hand has the right id, than set hand to done
+    const tempHands = this.state.player.hands.map(hand =>
+      hand.id === id
+        ? { ...hand, done: true }
+        : hand
+    );
+    // TODO: make function updatePlayerHand:
+    this.setState(prevState => ({ 
+      player: {...prevState.player, hands: tempHands}
+    }), () => 
+      this.checkEndRound()
+    );
+     
   }
 
   doMoveSplit(id) {
@@ -126,6 +146,14 @@ class Board extends Component {
 
   doMoveDouble(id) {
     console.log('do move double')
+  }
+
+  checkEndRound() {
+    console.log('check end round')
+    let allHandsDone = this.state.player.hands.every( hand => hand.done === true );
+    if (allHandsDone) {
+      this.endRound();
+    } 
   }
 
   endRound() {
@@ -143,12 +171,8 @@ class Board extends Component {
   startRound() {
     console.log('start round')
     const newRoundNum = this.state.currentRound.num + 1;
-    const dealtCardsToPlayer = [this.dealCard(), this.dealCard()];
-    const dealtCardToBank = [this.dealCard()];
     this.setState(prevState => ({
-      currentRound: { ...prevState.currentRound, num: newRoundNum, active: true },
-      player: { ...prevState.player, hands: [{ id: 0, cards: dealtCardsToPlayer }] },
-      bank: { ...prevState.bank, hand: dealtCardToBank }
+      currentRound: { ...prevState.currentRound, num: newRoundNum, active: true }
     }))
   }
 
@@ -159,8 +183,17 @@ class Board extends Component {
       currentRound: { ...prevState.currentRound, bet: bet },
       player: { ...prevState.player, stacksize: newStacksize }
     }))
-    console.log(this)
-    this.startRound();
+    this.dealFirstCards();
+  }
+
+  dealFirstCards() {
+    console.log('deal first cards')
+    const dealtCardsToPlayer = [this.dealCard(), this.dealCard()];
+    const dealtCardToBank = [this.dealCard()];
+    this.setState(prevState => ({
+      player: { ...prevState.player, hands: [{ id: 0, cards: dealtCardsToPlayer, done: false }] },
+      bank: { ...prevState.bank, hand: dealtCardToBank }
+    }))
   }
 
   render() {
@@ -183,8 +216,9 @@ class Board extends Component {
                 bets={bets}
                 doBet={this.doBet}
                 hands={player.hands}
-                roundActive={round.active}
+                round={round}
                 doMove={this.doMove}
+                startRound={this.startRound}
               />
             </div>
           </div>
