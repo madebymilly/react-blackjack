@@ -2,16 +2,20 @@ import React, { Component } from 'react'
 import Card from './Card'
 import Move from './Move'
 import '../styling/Hand.css'
+import { getTotalValue } from '../js/helpers'
 
 class Hand extends Component {
-  getHandValue = () => {
-    let handValue = 0;
-    this.props.hand.map(
-      (card, i) =>
-        handValue += card.value
-    )
-    return handValue;
+  componentDidUpdate(prevProps, prevState) {
+
   }
+  // getHandValue = () => {
+  //   let handValue = 0;
+  //   this.props.hand.map(
+  //     (card, i) =>
+  //       handValue += card.value
+  //   )
+  //   return handValue;
+  // }
   getPossibleMoves = () => {
     let moves = [...this.props.moves];
     // If value of first two cards is the same:
@@ -45,7 +49,7 @@ class Hand extends Component {
           {this.props.hand.map((card, i) => 
             <Card key={i} card={card} />
           )}
-          <p className="Hand-total">Total: {this.getHandValue()}</p>
+          <p className="Hand-total">Total: {getTotalValue(this.props.hand)}</p>
         </div>
         {moves}
       </div>

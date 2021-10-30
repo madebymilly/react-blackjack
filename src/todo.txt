@@ -8,7 +8,8 @@
   - remove or refactor default value of switch statement
 
 3. Hit Move
-  - end turn automatically when over 21 + hide move buttons
+  - XX set hand to done when over 21
+  - XX checkEndRound
 
 4. Split Move
 

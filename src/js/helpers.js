@@ -20,4 +20,13 @@ const renderSuitIcon = (suit) => {
 	}
 };
 
-export { renderSuitIcon }
+const getTotalValue = (cards) => {
+	let handValue = 0;
+	cards.map(
+		(card, i) =>
+			handValue += card.value
+	)
+	return handValue;
+}
+
+export { renderSuitIcon, getTotalValue }

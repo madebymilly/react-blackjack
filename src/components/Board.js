@@ -5,6 +5,8 @@ import Player from './Player'
 import StartGameForm from './StartGameForm'
 import fullDeck from '../data/deck'
 import '../styling/Board.css'
+import { getTotalValue } from '../js/helpers'
+
 
 const DECK = fullDeck.sort(() => 0.5 - Math.random());
 
@@ -96,14 +98,38 @@ class Board extends Component {
   doMoveHit(id) {
     const newCard = this.dealCard();
     // Map through all hands, if hand has the right id, than return hand + new card:
-    const tempHands = this.state.player.hands.map(hand =>
-      hand.id === id
-        ? { ...hand, cards: [...hand.cards, newCard] }
-        : hand
-    );
+    // And if hand value > 21 set hand to done:
+    const playerHands = this.state.player.hands;
+    // let tempHands = playerHands.map(hand =>
+    //   hand.id === id
+    //     ? { ...hand, cards: [...hand.cards, newCard] }
+    //     : hand
+    // );
+    let tempHands = playerHands.map(function(hand) {
+      if (hand.id === id) {
+        return { ...hand, cards: [...hand.cards, newCard] }
+      } else {
+        return hand;
+      }
+    });
+
+    // if value of new tempHands is higher than 21:
+    if ( getTotalValue(tempHands.find(hand => hand.id === id).cards) > 21) {
+      // set done to true of this hand.
+      tempHands = playerHands.map(function(hand) {
+        if (hand.id === id) {
+          return { ...hand, cards: [...hand.cards, newCard], done: true }
+        } else {
+          return hand;
+        }
+      });
+    }
+
     this.setState(prevState => ({
       player: {...prevState.player, hands: tempHands}
-    }))
+    }), () => 
+      this.checkEndRound()
+    );
   }
 
   doMovePass(id) {
@@ -130,8 +156,10 @@ class Board extends Component {
   }
 
   checkEndRound() {
+    
     let allHandsDone = this.state.player.hands.every( hand => hand.done === true );
     if (allHandsDone) {
+      console.log('end round');
       this.endRound();
     } 
   }
