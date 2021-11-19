@@ -1,22 +1,22 @@
-1. End Round
+1. use context
+2. localstorage for name etc.
+
+3. End Round
   - compare bank & player hands
   - show winnings
   - update stacksize
 
-2. Moves
+4. Moves
   - make seperate update player hand (cause we do this in doMoveHit & doMovePass)
   - remove or refactor default value of switch statement
 
-3. Hit Move
-  - XX set hand to done when over 21
-  - XX checkEndRound
+5. Split Move
 
-4. Split Move
+6. Double Move
 
-5. Double Move
+7. add Rounds state, where we can keep al previous rounds
 
-6. add Rounds state, where we can keep al previous rounds
+8. Reset game functionality
 
-7. Reset game functionality
+9. What happens is stacksize is 0?
 
-8 What happens is stacksize is 0?
