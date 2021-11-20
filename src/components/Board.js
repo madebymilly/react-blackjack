@@ -179,7 +179,7 @@ class Board extends Component {
   dealFirstCards() {
     const dealtCardsToPlayer = [this.dealCard(), this.dealCard()];
     const dealtCardToBank = [this.dealCard()];
-    this.props.playerContext.setHands([{ id: 0, cards: dealtCardsToPlayer, done: false, bet: this.props.roundContext.roundBet }]);
+    this.props.playerContext.setHands([{ id: 0, cards: dealtCardsToPlayer, done: false }]);
     this.setState(prevState => ({
       bank: { ...prevState.bank, hand: dealtCardToBank }
     }))

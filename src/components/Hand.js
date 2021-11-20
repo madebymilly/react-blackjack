@@ -30,8 +30,8 @@ class Hand extends Component {
   }
 
   render() {
-
-    const moves = (this.props.moves && this.props.roundContext.isRoundActive)
+    const { isRoundActive, roundBet } = this.props.roundContext;
+    const moves = (this.props.moves && isRoundActive)
       ? <div className="Hand-moves">
         {this.getPossibleMoves().map(move => 
           <Move key={move} move={move} handleMove={this.handleMove} />
@@ -41,9 +41,9 @@ class Hand extends Component {
 
     return (
       <div className="Hand">
-        {this.props.bet &&
-          <p className="Hand-bet">Bet: {this.props.bet}</p>
-        }
+        <div className="Hand-bet">
+          Bet: {roundBet}
+        </div>
         <div className="Hand-cards">
           {this.props.hand.map((card, i) => 
             <Card key={i} card={card} />

@@ -1,17 +1,19 @@
-1. End Round
+1. Add 'bet' to hand / seperate from roundBet.
+
+2. End Round
   - compare bank & player hands
   - show winnings
   - update stacksize
-
-2. Moves
-  - make seperate update player hand (cause we do this in doMoveHit & doMovePass)
-  - remove or refactor default value of switch statement
 
 3. Split Move
 
 4. Double Move
 
-5. Reset game functionality
+5. Moves
+  - remove or refactor default value of switch statement
+  - can this be moved to player context?
 
-6. What happens if stacksize is 0?
+6. Reset game functionality
+
+7. What happens if stacksize is 0?
 

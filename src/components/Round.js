@@ -10,7 +10,7 @@ class Round extends Component {
     return (
       <div className="Round">
         <p>Round number: {roundNum}</p>
-        <p>Bet: {roundBet}</p>
+        <p>Total bet: {roundBet}</p>
         <button onClick={this.props.resetGame}>Start over!</button>
       </div>
     )
