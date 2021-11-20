@@ -1,0 +1,7 @@
+.Bank {
+  padding: 1rem;
+  border: 1px solid black;
+  min-width: 200px;
+  margin: 0 auto 2rem;
+  display: inline-block;
+}

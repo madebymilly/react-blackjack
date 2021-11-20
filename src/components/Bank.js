@@ -1,13 +1,17 @@
 import React from 'react'
 import Hand from './Hand'
+import '../styling/Bank.css'
 
 function Bank(props) {
+  console.log(props)
   return (
     <div className="Bank">
       <h3>Bank</h3>
       <div className="Bank-hand">
         <div className="Bank-cards">
-          <Hand hand={props.hand} moves={false} bet={false} />
+          {props.hand.length !== 0 && 
+            <Hand hand={props.hand} moves={false} bet={false} />
+          }
         </div>
       </div>
     </div>
