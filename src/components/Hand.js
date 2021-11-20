@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { RoundContext } from "../context/RoundContext";
+import { withRoundContext } from "../context/RoundContext";
 
 import Card from './Card'
 import Move from './Move'
@@ -10,8 +10,6 @@ import '../styling/Hand.css'
 import { getTotalValue } from '../js/helpers'
 
 class Hand extends Component {
-
-  static contextType = RoundContext;
 
   getPossibleMoves = () => {
     let moves = [...this.props.moves];
@@ -33,9 +31,7 @@ class Hand extends Component {
 
   render() {
 
-    const { isRoundActive } = this.context;
-
-    const moves = (this.props.moves && isRoundActive)
+    const moves = (this.props.moves && this.props.roundContext.isRoundActive)
       ? <div className="Hand-moves">
         {this.getPossibleMoves().map(move => 
           <Move key={move} move={move} handleMove={this.handleMove} />
@@ -60,4 +56,4 @@ class Hand extends Component {
   }
 }
 
-export default Hand
+export default withRoundContext(Hand);

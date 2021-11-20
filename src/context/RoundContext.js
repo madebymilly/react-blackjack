@@ -48,3 +48,10 @@ export class RoundProvider extends Component {
   
 }
 
+// Higher Order Component:
+export const withRoundContext = Component => props => (
+  <RoundContext.Consumer>
+    {value => <Component roundContext={value} {...props} />}
+  </RoundContext.Consumer> 
+)
+

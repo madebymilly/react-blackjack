@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 
-import { RoundContext } from "../context/RoundContext";
+import { withRoundContext } from "../context/RoundContext";
 
 import '../styling/Round.css'
 
 class Round extends Component {
-  static contextType = RoundContext;
   render() {
-    const { roundNum, roundBet, isRoundActive } = this.context;
+    const { roundNum, roundBet, isRoundActive } = this.props.roundContext;
     return (
       <div className="Round">
         <p>Round number: {roundNum}</p>
@@ -19,4 +18,4 @@ class Round extends Component {
   }
 }
 
-export default Round;
+export default withRoundContext(Round);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { RoundContext } from "../context/RoundContext";
+import { withRoundContext } from "../context/RoundContext";
 import { withPlayerContext } from '../context/PlayerContext'
 
 import Hand from './Hand'
@@ -10,8 +10,6 @@ import '../styling/Player.css'
 
 class Player extends Component {
 
-  static contextType = RoundContext;
-
   handleClick = () => {
     this.props.startRound();
   }
@@ -19,7 +17,7 @@ class Player extends Component {
   render() {
 
     const { moves, bets, doBet, doMove } = this.props;
-    const { roundBet, isRoundActive } = this.context;
+    const { roundBet, isRoundActive } = this.props.roundContext;
     const { playerName, playerStack, playerHands } = this.props.playerContext;
 
     return (
@@ -49,4 +47,4 @@ class Player extends Component {
   }
 }
 
-export default withPlayerContext(Player);
+export default withRoundContext(withPlayerContext(Player));

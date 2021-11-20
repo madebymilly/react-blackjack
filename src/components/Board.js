@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { RoundContext } from "../context/RoundContext";
+import { withRoundContext } from "../context/RoundContext";
 import { withPlayerContext } from '../context/PlayerContext'
 
 import Round from './Round'
@@ -23,8 +23,6 @@ class Board extends Component {
     bets: [10, 25, 50, 100, 200],
     moves: ['hit', 'pass']
   }
-
-  static contextType = RoundContext;
 
   constructor(props) {
     super(props)
@@ -157,7 +155,7 @@ class Board extends Component {
   }
 
   endRound() {
-    this.context.deActivateRound();
+    this.props.roundContext.deActivateRound();
     const newCardsForBank = this.getBankCardsTill17();
     this.setState(prevState => ({
       bank: { ...prevState.bank, hand: [...prevState.bank.hand, ...newCardsForBank] }
@@ -165,7 +163,7 @@ class Board extends Component {
   }
 
   startRound() {
-    this.context.activateRound();
+    this.props.roundContext.activateRound();
     this.props.playerContext.setHands([]);
     this.setState(prevState => ({
       bank: { ...prevState.bank, hand: [] },    
@@ -173,7 +171,7 @@ class Board extends Component {
   }
 
   doBet(bet) {
-    this.context.setBet(bet);
+    this.props.roundContext.setBet(bet);
     this.props.playerContext.updateStack(bet);
     this.dealFirstCards();
   }
@@ -181,7 +179,7 @@ class Board extends Component {
   dealFirstCards() {
     const dealtCardsToPlayer = [this.dealCard(), this.dealCard()];
     const dealtCardToBank = [this.dealCard()];
-    this.props.playerContext.setHands([{ id: 0, cards: dealtCardsToPlayer, done: false, bet: this.context.roundBet }]);
+    this.props.playerContext.setHands([{ id: 0, cards: dealtCardsToPlayer, done: false, bet: this.props.roundContext.roundBet }]);
     this.setState(prevState => ({
       bank: { ...prevState.bank, hand: dealtCardToBank }
     }))
@@ -190,7 +188,7 @@ class Board extends Component {
   render() {
 
     const { moves, bets } = this.props;
-    const { gameHasStarted, player, bank } = this.state;
+    const { gameHasStarted, bank } = this.state;
     return (
       <div className="Board">
         <h1>Black Jack!</h1>
@@ -215,4 +213,4 @@ class Board extends Component {
   }
 }
 
-export default withPlayerContext(Board);
+export default withRoundContext(withPlayerContext(Board));
