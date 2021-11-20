@@ -1,0 +1,64 @@
+import React, { Component, createContext } from "react";
+
+export const PlayerContext = createContext();
+
+export class PlayerProvider extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+      playerId: 1,
+      playerName: '',
+      playerStack: 0,
+      playerHands: []
+      // playerHands: [
+      //   { id: 0, cards: [DECK[2], DECK[3]], done: false, winner: false, bet: 100 },
+      //   { id: 1, cards: [DECK[4], DECK[5]], done: false, winner: false, bet: 100 },
+      //   { id: 2, cards: [DECK[6], DECK[7]], done: false, winner: false, bet: 100 }
+      // ]
+    }
+  }
+
+  setPlayerInfo = (name, stack) => {
+    this.setState({
+      playerStack: stack,
+      playerName: name
+    })
+  }
+
+  updateStack = (bet) => {
+    this.setState(prevState => ({
+      playerStack: prevState.playerStack - bet
+    }))
+  }
+
+  setHands = (hands, checkEndRound) => {
+    this.setState({
+      playerHands: hands
+    }, () =>
+      checkEndRound && checkEndRound()
+    );
+  }
+
+  render() {
+    return (
+      <PlayerContext.Provider value={{ 
+        ...this.state, 
+        setPlayerInfo: this.setPlayerInfo,
+        updateStack: this.updateStack,
+        setHands: this.setHands
+      }}>
+        {this.props.children}
+      </PlayerContext.Provider>
+    )
+  }
+  
+}
+
+// Higher Order Component:
+export const withPlayerContext = Component => props => (
+  <PlayerContext.Consumer>
+    {value => <Component playerContext={value} {...props} />}
+  </PlayerContext.Consumer> 
+)
+

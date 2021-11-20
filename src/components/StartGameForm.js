@@ -18,8 +18,8 @@ export default class StartGameForm extends Component {
     e.preventDefault();
     this.props.startGame( this.state.name, this.state.stacksize );
     this.setState({
-      name: '',
-       stacksize: ''
+        name: '',
+        stacksize: ''
     })
   }
 

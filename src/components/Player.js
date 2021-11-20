@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import { RoundContext } from "../context/RoundContext";
+import { withPlayerContext } from '../context/PlayerContext'
 
 import Hand from './Hand'
 import Bet from './Bet'
@@ -17,18 +18,19 @@ class Player extends Component {
 
   render() {
 
-    const { name, stacksize, hands, moves, bets, doBet, doMove } = this.props;
+    const { moves, bets, doBet, doMove } = this.props;
     const { roundBet, isRoundActive } = this.context;
+    const { playerName, playerStack, playerHands } = this.props.playerContext;
 
     return (
       <div className="Player">
         <h3>Player</h3>
         <div className="Player-info">
-          <p className="Player-name">Name: {name}</p>
-          <p className="Player-stacksize">Stacksize: {stacksize}</p>
+          <p className="Player-name">Name: {playerName}</p>
+          <p className="Player-stacksize">Stacksize: {playerStack}</p>
         </div>
         <div className="Player-hands">
-          {hands.map(hand =>
+          {playerHands.map(hand =>
             <Hand key={hand.id} id={hand.id} hand={hand.cards} moves={moves} doMove={doMove} />
           )}
         </div>
@@ -47,4 +49,4 @@ class Player extends Component {
   }
 }
 
-export default Player
+export default withPlayerContext(Player);

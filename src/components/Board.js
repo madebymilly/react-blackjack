@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import { RoundContext } from "../context/RoundContext";
+import { withPlayerContext } from '../context/PlayerContext'
 
 import Round from './Round'
 import Bank from './Bank'
@@ -30,20 +31,8 @@ class Board extends Component {
 
     this.state = {
       deck: DECK,
-      gameHasStarted: true, // for testing purpose set to true (should be false)
-      player: {
-        id: 1,
-        name: 'Milly', // for testing purpose set to Milly (should be '')
-        stacksize: 1000, // for testing purpose set to 1000 (should be 0)
-        hands: []
-        // hands: [
-        //   { id: 0, cards: [DECK[2], DECK[3]], done: false, winner: false, bet: 100 },
-        //   { id: 1, cards: [DECK[4], DECK[5]], done: false, winner: false, bet: 100 },
-        //   { id: 2, cards: [DECK[6], DECK[7]], done: false, winner: false, bet: 100 }
-        // ]
-      },
+      gameHasStarted: false, // for testing purpose set to true (should be false)
       bank: { hand: [] }
-      // bank: { hand: [DECK[0], DECK[1]] }
     }
 
     this.resetGame = this.resetGame.bind(this)
@@ -54,9 +43,9 @@ class Board extends Component {
     this.doMovePass = this.doMovePass.bind(this)
     this.doMoveSplit = this.doMoveSplit.bind(this)
     this.doMoveDouble = this.doMoveDouble.bind(this)
+    this.getBankCardsTill17 = this.getBankCardsTill17.bind(this)
     this.checkEndRound = this.checkEndRound.bind(this)
     this.endRound = this.endRound.bind(this)
-    this.getBankCardsTill17 = this.getBankCardsTill17.bind(this)
     this.startRound = this.startRound.bind(this)
     this.doBet = this.doBet.bind(this)
     
@@ -66,11 +55,11 @@ class Board extends Component {
     console.log('reset game')
   }
 
-  startGame( playerName, playerStacksize ) {
-    this.setState(prevState => ({
+  startGame( playerName, playerStack ) {
+    this.props.playerContext.setPlayerInfo( playerName, playerStack )
+    this.setState({
       gameHasStarted: true,
-      player: {...prevState.player, name: playerName, stacksize: playerStacksize }
-    }))
+    })
   }
 
   dealCard() {
@@ -99,20 +88,15 @@ class Board extends Component {
         this.doMoveDouble(id);
         break;
       default:
-        console.log('default')
+        break;
     }
   }
 
   doMoveHit(id) {
     const newCard = this.dealCard();
+    const playerHands = this.props.playerContext.playerHands;
+
     // Map through all hands, if hand has the right id, than return hand + new card:
-    // And if hand value > 21 set hand to done:
-    const playerHands = this.state.player.hands;
-    // let tempHands = playerHands.map(hand =>
-    //   hand.id === id
-    //     ? { ...hand, cards: [...hand.cards, newCard] }
-    //     : hand
-    // );
     let tempHands = playerHands.map(function(hand) {
       if (hand.id === id) {
         return { ...hand, cards: [...hand.cards, newCard] }
@@ -121,9 +105,8 @@ class Board extends Component {
       }
     });
 
-    // if value of new tempHands is higher than 21:
+    // If hand value > 21 set hand to done:
     if ( getTotalValue(tempHands.find(hand => hand.id === id).cards) > 21) {
-      // set done to true of this hand.
       tempHands = playerHands.map(function(hand) {
         if (hand.id === id) {
           return { ...hand, cards: [...hand.cards, newCard], done: true }
@@ -133,26 +116,18 @@ class Board extends Component {
       });
     }
 
-    this.setState(prevState => ({
-      player: {...prevState.player, hands: tempHands}
-    }), () => 
-      this.checkEndRound()
-    );
+    this.props.playerContext.setHands(tempHands, this.checkEndRound);
   }
 
   doMovePass(id) {
     // Map through all hands, if hand has the right id, than set hand to done:
-    const tempHands = this.state.player.hands.map(hand =>
+    const tempHands = this.props.playerContext.playerHands.map(hand =>
       hand.id === id
         ? { ...hand, done: true }
         : hand
     );
-    this.setState(prevState => ({ 
-      player: {...prevState.player, hands: tempHands}
-    }), () => 
-      this.checkEndRound()
-    );
-     
+
+    this.props.playerContext.setHands(tempHands, this.checkEndRound);
   }
 
   doMoveSplit(id) {
@@ -163,24 +138,22 @@ class Board extends Component {
     console.log('do move double')
   }
 
-  checkEndRound() {
-    let allHandsDone = this.state.player.hands.every( hand => hand.done === true );
-    if (allHandsDone) {
-      this.endRound();
-    } 
-  }
-
   getBankCardsTill17() {
     let newCards = [];
     let currentBankHandValue = this.state.bank.hand[0].value;
     while (currentBankHandValue < 17) {
       const newCard = this.dealCard();
-      // console.log(newCards);
-      // console.log(newCard);
       newCards = [...newCards, newCard];
       currentBankHandValue += newCard.value;
     }
     return newCards;
+  }
+
+  checkEndRound() {
+    let allHandsDone = this.props.playerContext.playerHands.every( hand => hand.done === true );
+    if (allHandsDone) {
+      this.endRound();
+    } 
   }
 
   endRound() {
@@ -193,26 +166,23 @@ class Board extends Component {
 
   startRound() {
     this.context.activateRound();
+    this.props.playerContext.setHands([]);
     this.setState(prevState => ({
-      player: { ...prevState.player, hands: [] },
       bank: { ...prevState.bank, hand: [] },    
     }))
   }
 
   doBet(bet) {
     this.context.setBet(bet);
-    const newStacksize = this.state.player.stacksize - bet;
-    this.setState(prevState => ({
-      player: { ...prevState.player, stacksize: newStacksize }
-    }))
+    this.props.playerContext.updateStack(bet);
     this.dealFirstCards();
   }
 
   dealFirstCards() {
     const dealtCardsToPlayer = [this.dealCard(), this.dealCard()];
     const dealtCardToBank = [this.dealCard()];
+    this.props.playerContext.setHands([{ id: 0, cards: dealtCardsToPlayer, done: false, bet: this.context.roundBet }]);
     this.setState(prevState => ({
-      player: { ...prevState.player, hands: [{ id: 0, cards: dealtCardsToPlayer, done: false, bet: this.context.roundBet }] },
       bank: { ...prevState.bank, hand: dealtCardToBank }
     }))
   }
@@ -230,12 +200,9 @@ class Board extends Component {
             <Bank hand={bank.hand} />
             <div className="Board-players">
               <Player
-                name={player.name}
-                stacksize={player.stacksize}
                 moves={moves}
                 bets={bets}
                 doBet={this.doBet}
-                hands={player.hands}
                 doMove={this.doMove}
                 startRound={this.startRound}
               />
@@ -248,4 +215,4 @@ class Board extends Component {
   }
 }
 
-export default Board
+export default withPlayerContext(Board);
