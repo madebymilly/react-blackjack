@@ -1,4 +1,5 @@
 import React, { Component, createContext } from "react";
+import { storeToLocalStorage, getLocalStorage } from '../js/helpers'
 
 export const RoundContext = createContext();
 
@@ -7,7 +8,7 @@ export class RoundProvider extends Component {
     super(props)
   
     this.state = {
-      roundNum: 0, 
+      roundNum: getLocalStorage('roundNum') || 0, 
       roundBet: 0, 
       isRoundActive: false 
     }
@@ -17,14 +18,16 @@ export class RoundProvider extends Component {
     this.setState(prevState => ({
       isRoundActive: true,
       roundNum: prevState.roundNum + 1
-    }))
+    }), () =>
+      storeToLocalStorage( 'roundNum', this.state.roundNum)
+    )
   }
 
   deActivateRound = () => {
-    this.setState(prevState => ({
+    this.setState({
       isRoundActive: false,
       roundBet: 0
-    }))
+    })
   }
 
   setBet = (bet) => {

@@ -54,7 +54,7 @@ class Board extends Component {
   }
 
   startGame( playerName, playerStack ) {
-    this.props.playerContext.setPlayerInfo( playerName, playerStack )
+    this.props.playerContext.setPlayerInfo( playerName, playerStack );
     this.setState({
       gameHasStarted: true,
     })
@@ -188,11 +188,13 @@ class Board extends Component {
   render() {
 
     const { moves, bets } = this.props;
-    const { gameHasStarted, bank } = this.state;
+    const { bank } = this.state;
+    const { playerName, playerStack } = this.props.playerContext;
+
     return (
       <div className="Board">
         <h1>Black Jack!</h1>
-        {gameHasStarted 
+        {playerName && playerStack !== 0
         ? <div>
             <Round resetGame={this.resetGame} />
             <Bank hand={bank.hand} />

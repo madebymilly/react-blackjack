@@ -6,8 +6,8 @@ export default class StartGameForm extends Component {
     super(props)
   
     this.state = {
-       name: 'Roodkapje', // should be empty
-       stacksize: '1000' // should be empty
+       name: '',
+       stacksize: ''
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)

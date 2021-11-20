@@ -1,4 +1,5 @@
 import React, { Component, createContext } from "react";
+import { storeToLocalStorage, getLocalStorage } from "../js/helpers";
 
 export const PlayerContext = createContext();
 
@@ -8,8 +9,8 @@ export class PlayerProvider extends Component {
   
     this.state = {
       playerId: 1,
-      playerName: '',
-      playerStack: 0,
+      playerName: getLocalStorage('playerName') || '',
+      playerStack: getLocalStorage('playerStack') || 0,
       playerHands: []
       // playerHands: [
       //   { id: 0, cards: [DECK[2], DECK[3]], done: false, winner: false, bet: 100 },
@@ -23,13 +24,18 @@ export class PlayerProvider extends Component {
     this.setState({
       playerStack: stack,
       playerName: name
+    }, () => {
+      storeToLocalStorage( 'playerName', name );
+      storeToLocalStorage( 'playerStack', stack );
     })
   }
 
   updateStack = (bet) => {
     this.setState(prevState => ({
       playerStack: prevState.playerStack - bet
-    }))
+    }), () => {
+      storeToLocalStorage( 'playerStack', this.state.playerStack )
+    })
   }
 
   setHands = (hands, checkEndRound) => {
