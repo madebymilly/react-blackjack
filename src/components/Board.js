@@ -1,20 +1,29 @@
 import React, { Component } from 'react'
+
+import { RoundContext } from "../context/RoundContext";
+
 import Round from './Round'
 import Bank from './Bank'
 import Player from './Player'
 import StartGameForm from './StartGameForm'
+
 import fullDeck from '../data/deck'
+
 import '../styling/Board.css'
+
 import { getTotalValue } from '../js/helpers'
 
 
 const DECK = fullDeck.sort(() => 0.5 - Math.random());
 
 class Board extends Component {
+
   static defaultProps = {
     bets: [10, 25, 50, 100, 200],
     moves: ['hit', 'pass']
   }
+
+  static contextType = RoundContext;
 
   constructor(props) {
     super(props)
@@ -33,9 +42,8 @@ class Board extends Component {
         //   { id: 2, cards: [DECK[6], DECK[7]], done: false, winner: false, bet: 100 }
         // ]
       },
-      bank: { hand: [] },
-      // bank: { hand: [DECK[0], DECK[1]] },
-      currentRound: { num: 0, bet: 0, active: false }
+      bank: { hand: [] }
+      // bank: { hand: [DECK[0], DECK[1]] }
     }
 
     this.resetGame = this.resetGame.bind(this)
@@ -156,10 +164,8 @@ class Board extends Component {
   }
 
   checkEndRound() {
-    
     let allHandsDone = this.state.player.hands.every( hand => hand.done === true );
     if (allHandsDone) {
-      console.log('end round');
       this.endRound();
     } 
   }
@@ -169,8 +175,8 @@ class Board extends Component {
     let currentBankHandValue = this.state.bank.hand[0].value;
     while (currentBankHandValue < 17) {
       const newCard = this.dealCard();
-      console.log(newCards);
-      console.log(newCard);
+      // console.log(newCards);
+      // console.log(newCard);
       newCards = [...newCards, newCard];
       currentBankHandValue += newCard.value;
     }
@@ -178,26 +184,25 @@ class Board extends Component {
   }
 
   endRound() {
+    this.context.deActivateRound();
     const newCardsForBank = this.getBankCardsTill17();
     this.setState(prevState => ({
-      currentRound: { ...prevState.currentRound, active: false },
       bank: { ...prevState.bank, hand: [...prevState.bank.hand, ...newCardsForBank] }
     }))
   }
 
   startRound() {
-    const newRoundNum = this.state.currentRound.num + 1;
+    this.context.activateRound();
     this.setState(prevState => ({
-      currentRound: { ...prevState.currentRound, num: newRoundNum, active: true, bet: 0 },
       player: { ...prevState.player, hands: [] },
       bank: { ...prevState.bank, hand: [] },    
     }))
   }
 
   doBet(bet) {
+    this.context.setBet(bet);
     const newStacksize = this.state.player.stacksize - bet;
     this.setState(prevState => ({
-      currentRound: { ...prevState.currentRound, bet: bet },
       player: { ...prevState.player, stacksize: newStacksize }
     }))
     this.dealFirstCards();
@@ -207,7 +212,7 @@ class Board extends Component {
     const dealtCardsToPlayer = [this.dealCard(), this.dealCard()];
     const dealtCardToBank = [this.dealCard()];
     this.setState(prevState => ({
-      player: { ...prevState.player, hands: [{ id: 0, cards: dealtCardsToPlayer, done: false, bet: prevState.currentRound.bet }] },
+      player: { ...prevState.player, hands: [{ id: 0, cards: dealtCardsToPlayer, done: false, bet: this.context.roundBet }] },
       bank: { ...prevState.bank, hand: dealtCardToBank }
     }))
   }
@@ -215,14 +220,13 @@ class Board extends Component {
   render() {
 
     const { moves, bets } = this.props;
-    const { gameHasStarted, player, bank, currentRound } = this.state;
-
+    const { gameHasStarted, player, bank } = this.state;
     return (
       <div className="Board">
         <h1>Black Jack!</h1>
         {gameHasStarted 
         ? <div>
-            <Round roundnr={currentRound.num} bet={currentRound.bet} resetGame={this.resetGame} />
+            <Round resetGame={this.resetGame} />
             <Bank hand={bank.hand} />
             <div className="Board-players">
               <Player
@@ -232,7 +236,6 @@ class Board extends Component {
                 bets={bets}
                 doBet={this.doBet}
                 hands={player.hands}
-                round={currentRound}
                 doMove={this.doMove}
                 startRound={this.startRound}
               />

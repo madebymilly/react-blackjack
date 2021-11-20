@@ -1,21 +1,18 @@
 import React, { Component } from 'react'
+
+import { RoundContext } from "../context/RoundContext";
+
 import Card from './Card'
 import Move from './Move'
+
 import '../styling/Hand.css'
+
 import { getTotalValue } from '../js/helpers'
 
 class Hand extends Component {
-  componentDidUpdate(prevProps, prevState) {
 
-  }
-  // getHandValue = () => {
-  //   let handValue = 0;
-  //   this.props.hand.map(
-  //     (card, i) =>
-  //       handValue += card.value
-  //   )
-  //   return handValue;
-  // }
+  static contextType = RoundContext;
+
   getPossibleMoves = () => {
     let moves = [...this.props.moves];
     // If value of first two cards is the same:
@@ -29,17 +26,23 @@ class Hand extends Component {
     }
     return moves;
   }
+
   handleMove = (move) => {
     this.props.doMove(move, this.props.id);
   }
+
   render() {
-    const moves = (this.props.moves && this.props.roundActive)
+
+    const { isRoundActive } = this.context;
+
+    const moves = (this.props.moves && isRoundActive)
       ? <div className="Hand-moves">
         {this.getPossibleMoves().map(move => 
           <Move key={move} move={move} handleMove={this.handleMove} />
         )}
       </div>
       : '';
+
     return (
       <div className="Hand">
         {this.props.bet &&

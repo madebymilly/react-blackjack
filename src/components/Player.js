@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
+
+import { RoundContext } from "../context/RoundContext";
+
 import Hand from './Hand'
 import Bet from './Bet'
+
 import '../styling/Player.css'
 
 class Player extends Component {
+
+  static contextType = RoundContext;
 
   handleClick = () => {
     this.props.startRound();
@@ -11,7 +17,8 @@ class Player extends Component {
 
   render() {
 
-    const { name, stacksize, hands, moves, bets, doBet, round, doMove } = this.props;
+    const { name, stacksize, hands, moves, bets, doBet, doMove } = this.props;
+    const { roundBet, isRoundActive } = this.context;
 
     return (
       <div className="Player">
@@ -22,13 +29,13 @@ class Player extends Component {
         </div>
         <div className="Player-hands">
           {hands.map(hand =>
-            <Hand key={hand.id} id={hand.id} hand={hand.cards} moves={moves} doMove={doMove} roundActive={round.active} bet={round.bet}/>
+            <Hand key={hand.id} id={hand.id} hand={hand.cards} moves={moves} doMove={doMove} />
           )}
         </div>
-        {!round.active &&
+        {!isRoundActive &&
           <button className="Player-start-round" onClick={this.handleClick}>Start New Round</button>
         }
-        {round.active && round.bet === 0 &&
+        {isRoundActive && roundBet === 0 &&
           <div className="Player-bets">
             {bets.map(bet => 
               <Bet key={bet} bet={bet} doBet={doBet} />
