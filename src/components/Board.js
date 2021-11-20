@@ -28,9 +28,9 @@ class Board extends Component {
         stacksize: 1000, // for testing purpose set to 1000 (should be 0)
         hands: []
         // hands: [
-        //   { id: 0, cards: [DECK[2], DECK[3]], done: false, winner: false },
-        //   { id: 1, cards: [DECK[4], DECK[5]], done: false, winner: false },
-        //   { id: 2, cards: [DECK[6], DECK[7]], done: false, winner: false }
+        //   { id: 0, cards: [DECK[2], DECK[3]], done: false, winner: false, bet: 100 },
+        //   { id: 1, cards: [DECK[4], DECK[5]], done: false, winner: false, bet: 100 },
+        //   { id: 2, cards: [DECK[6], DECK[7]], done: false, winner: false, bet: 100 }
         // ]
       },
       bank: { hand: [] },
@@ -207,7 +207,7 @@ class Board extends Component {
     const dealtCardsToPlayer = [this.dealCard(), this.dealCard()];
     const dealtCardToBank = [this.dealCard()];
     this.setState(prevState => ({
-      player: { ...prevState.player, hands: [{ id: 0, cards: dealtCardsToPlayer, done: false }] },
+      player: { ...prevState.player, hands: [{ id: 0, cards: dealtCardsToPlayer, done: false, bet: prevState.currentRound.bet }] },
       bank: { ...prevState.bank, hand: dealtCardToBank }
     }))
   }
@@ -215,14 +215,14 @@ class Board extends Component {
   render() {
 
     const { moves, bets } = this.props;
-    const { gameHasStarted, player, bank, currentRound: round } = this.state;
+    const { gameHasStarted, player, bank, currentRound } = this.state;
 
     return (
       <div className="Board">
         <h1>Black Jack!</h1>
         {gameHasStarted 
         ? <div>
-            <Round roundnr={round.num} bet={round.bet} resetGame={this.resetGame} />
+            <Round roundnr={currentRound.num} bet={currentRound.bet} resetGame={this.resetGame} />
             <Bank hand={bank.hand} />
             <div className="Board-players">
               <Player
@@ -232,7 +232,7 @@ class Board extends Component {
                 bets={bets}
                 doBet={this.doBet}
                 hands={player.hands}
-                round={round}
+                round={currentRound}
                 doMove={this.doMove}
                 startRound={this.startRound}
               />

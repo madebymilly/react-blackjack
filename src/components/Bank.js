@@ -3,7 +3,6 @@ import Hand from './Hand'
 import '../styling/Bank.css'
 
 function Bank(props) {
-  console.log(props)
   return (
     <div className="Bank">
       <h3>Bank</h3>
