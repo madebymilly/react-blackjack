@@ -1,22 +1,21 @@
-1. use context
-2. localstorage for name etc.
+1. localstorage for player info & round.
 
-3. End Round
+2. End Round
   - compare bank & player hands
   - show winnings
   - update stacksize
 
-4. Moves
+3. Moves
   - make seperate update player hand (cause we do this in doMoveHit & doMovePass)
   - remove or refactor default value of switch statement
 
-5. Split Move
+4. Split Move
 
-6. Double Move
+5. Double Move
 
-7. add Rounds state, where we can keep al previous rounds
+6. add Rounds state, where we can keep al previous rounds
 
-8. Reset game functionality
+7. Reset game functionality
 
-9. What happens is stacksize is 0?
+8. What happens is stacksize is 0?
 
