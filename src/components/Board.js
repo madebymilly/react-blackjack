@@ -137,10 +137,26 @@ class Board extends Component {
 
   doMoveSplit(id) {
     console.log('do move split')
+    const { playerHands, setHands } = this.props.playerContext;
+
+    console.log(playerHands);
+    const currentBet = playerHands[id].bet;
+    console.log(currentBet);
+    const secondCard = playerHands[id].cards[1];
+    console.log(secondCard);
+    // create a new hand for the player.
+    // move second card from this hand to next hand.
+    // TODO: deal two cards immediatable, one to each hand
+    playerHands.push({ id: 1, cards: [secondCard], done: false, bet: currentBet, result: null });
+
+    console.log(playerHands);
+    
+    setHands( playerHands );
+
+    
   }
 
   doMoveDouble(id) {
-    console.log('do move double')
     const newCard = this.dealCard();
     const playerHands = this.props.playerContext.playerHands;
 
@@ -234,7 +250,7 @@ class Board extends Component {
 
   dealFirstCards(bet) {
     //const dealtCardsToPlayer = [this.dealCard(), this.dealCard()];
-    const dealtCardsToPlayer = [{rank: 5, suit: 'clubs', value: 5}, {rank: 6, suit: 'hearts', value: 6}];
+    const dealtCardsToPlayer = [{rank: 5, suit: 'clubs', value: 5}, {rank: 5, suit: 'hearts', value: 5}];
     const dealtCardToBank = [this.dealCard()];
     this.props.playerContext.setHands([{ id: 0, cards: dealtCardsToPlayer, done: false, bet: bet, result: null }]);
     this.setState(prevState => ({

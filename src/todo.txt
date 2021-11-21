@@ -6,8 +6,12 @@ XX 2. End Round
   - XX update stacksize
 
 3. Split Move
+  - double the bet
+  - create extra hand + move card
 
-XX 4. Double Move
+4. Double Move
+  - double the bet
+  - XX give one more card then hand is done
 
 5. Moves
   - remove or refactor default value of switch statement

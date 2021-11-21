@@ -10,8 +10,8 @@ class Round extends Component {
     return (
       <div className="Round">
         <p>Round number: {roundNum}</p>
-        <p>Total bet: {roundBet}</p>
-        <p>{isRoundActive ? 'is active' : 'is not active'}</p>
+        {/* {<p>Total bet: {roundBet}</p>} */}
+        {/* <p>{isRoundActive ? 'is active' : 'is not active'}</p> */}
         <button onClick={this.props.resetGame}>Start over!</button>
       </div>
     )
