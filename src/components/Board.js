@@ -158,13 +158,13 @@ class Board extends Component {
 
   doMoveDouble(id) {
     const newCard = this.dealCard();
-    const playerHands = this.props.playerContext.playerHands;
+    const { playerHands } = this.props.playerContext;
 
     // Map through all hands, if hand has the right id, than return hand + new card:
     // also set hand to done (only one card can be added when double)
     let tempHands = playerHands.map(function(hand) {
       if (hand.id === id) {
-        return { ...hand, cards: [...hand.cards, newCard], done: true }
+        return { ...hand, cards: [...hand.cards, newCard], done: true, bet: hand.bet * 2 }
       } else {
         return hand;
       }
