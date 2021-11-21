@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/react-blackjack/static/css/main.3a8ee985.chunk.css",
-    "main.js": "/react-blackjack/static/js/main.69ab11ee.chunk.js",
-    "main.js.map": "/react-blackjack/static/js/main.69ab11ee.chunk.js.map",
+    "main.js": "/react-blackjack/static/js/main.d24f3688.chunk.js",
+    "main.js.map": "/react-blackjack/static/js/main.d24f3688.chunk.js.map",
     "runtime-main.js": "/react-blackjack/static/js/runtime-main.70f5d3b2.js",
     "runtime-main.js.map": "/react-blackjack/static/js/runtime-main.70f5d3b2.js.map",
     "static/js/2.5ef2c506.chunk.js": "/react-blackjack/static/js/2.5ef2c506.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.70f5d3b2.js",
     "static/js/2.5ef2c506.chunk.js",
     "static/css/main.3a8ee985.chunk.css",
-    "static/js/main.69ab11ee.chunk.js"
+    "static/js/main.d24f3688.chunk.js"
   ]
 }
