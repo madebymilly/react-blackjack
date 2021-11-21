@@ -1,8 +1,8 @@
 XX 1. Add 'bet' to hand / seperate from roundBet.
 
 2. End Round
-  - compare bank & player hands
-  - show winnings
+  - XX compare bank & player hands
+  - XX show winnings
   - update stacksize
 
 3. Split Move
@@ -13,7 +13,7 @@ XX 1. Add 'bet' to hand / seperate from roundBet.
   - remove or refactor default value of switch statement
   - can this be moved to player context?
 
-6. Reset game functionality
+XX 6. Reset game functionality
 
 7. What happens if stacksize is 0?
 

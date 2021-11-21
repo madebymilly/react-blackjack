@@ -42,6 +42,7 @@ class Board extends Component {
     this.doMoveSplit = this.doMoveSplit.bind(this)
     this.doMoveDouble = this.doMoveDouble.bind(this)
     this.getBankCardsTill17 = this.getBankCardsTill17.bind(this)
+    this.checkWinnings = this.checkWinnings.bind(this)
     this.checkEndRound = this.checkEndRound.bind(this)
     this.endRound = this.endRound.bind(this)
     this.startRound = this.startRound.bind(this)
@@ -109,11 +110,11 @@ class Board extends Component {
       }
     });
 
-    // If hand value > 21 set hand to done:
+    // If hand value > 21 set hand to done & lose:
     if ( getTotalValue(tempHands.find(hand => hand.id === id).cards) > 21) {
       tempHands = playerHands.map(function(hand) {
         if (hand.id === id) {
-          return { ...hand, cards: [...hand.cards, newCard], done: true }
+          return { ...hand, cards: [...hand.cards, newCard], done: true, result: 'lose' }
         } else {
           return hand;
         }
@@ -153,6 +154,28 @@ class Board extends Component {
     return newCards;
   }
 
+  checkWinnings() {
+    const totalBank = getTotalValue(this.state.bank.hand);
+    const playerHands = this.props.playerContext.playerHands;
+
+    // loop trough all hands:
+    playerHands.forEach(hand => {
+      const totalHand = getTotalValue(hand.cards)
+      if ( hand.result === null && hand.done ) {
+        if ( totalBank > 21 ) {
+          hand.result = 'win';
+        } else if ( totalBank === totalHand ) {
+          hand.result = 'tie';
+        } else if ( totalBank < totalHand ) {
+          hand.result = 'win';
+        } else {
+          hand.result = 'lose';
+        }
+      };
+    });
+    this.props.playerContext.setHands(playerHands);   
+  }
+
   checkEndRound() {
     let allHandsDone = this.props.playerContext.playerHands.every( hand => hand.done === true );
     if (allHandsDone) {
@@ -165,7 +188,9 @@ class Board extends Component {
     const newCardsForBank = this.getBankCardsTill17();
     this.setState(prevState => ({
       bank: { ...prevState.bank, hand: [...prevState.bank.hand, ...newCardsForBank] }
-    }))
+    }), () => {
+      this.checkWinnings();
+    })
   }
 
   startRound() {
@@ -185,7 +210,7 @@ class Board extends Component {
   dealFirstCards(bet) {
     const dealtCardsToPlayer = [this.dealCard(), this.dealCard()];
     const dealtCardToBank = [this.dealCard()];
-    this.props.playerContext.setHands([{ id: 0, cards: dealtCardsToPlayer, done: false, bet: bet }]);
+    this.props.playerContext.setHands([{ id: 0, cards: dealtCardsToPlayer, done: false, bet: bet, result: null }]);
     this.setState(prevState => ({
       bank: { ...prevState.bank, hand: dealtCardToBank }
     }))

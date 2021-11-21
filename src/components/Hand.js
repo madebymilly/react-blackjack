@@ -30,7 +30,7 @@ class Hand extends Component {
   }
 
   render() {
-    const { hand, bet, moves } = this.props;
+    const { hand, bet, moves, done, result } = this.props;
     const { isRoundActive } = this.props.roundContext;
     const newMoves = (moves && isRoundActive)
       ? <div className="Hand-moves">
@@ -39,6 +39,20 @@ class Hand extends Component {
         )}
       </div>
       : '';
+    const winnings = () => {
+      if (!isRoundActive && done) {
+        switch(result) {
+          case 'win':
+            return 'WIN! 😄';
+          case 'lose':
+            return 'LOST 😓';
+          case 'tie':
+            return 'TIE! 😅';
+          default:
+            break;
+        }
+      }
+    }
     return (
       <div className="Hand">
         <div className="Hand-bet">
@@ -49,6 +63,7 @@ class Hand extends Component {
             <Card key={i} card={card} />
           )}
           <p className="Hand-total">Total: {getTotalValue(hand)}</p>
+          <p><strong>{winnings()}</strong></p>
         </div>
         {newMoves}
       </div>
