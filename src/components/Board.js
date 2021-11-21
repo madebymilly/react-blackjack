@@ -184,7 +184,7 @@ class Board extends Component {
       };
     });
     setHands(tempHands);   
-    updateStack(amount);
+    updateStack(-amount);
   }
 
   checkEndRound() {
