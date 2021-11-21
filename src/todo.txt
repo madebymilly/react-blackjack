@@ -1,4 +1,4 @@
-1. Add 'bet' to hand / seperate from roundBet.
+XX 1. Add 'bet' to hand / seperate from roundBet.
 
 2. End Round
   - compare bank & player hands

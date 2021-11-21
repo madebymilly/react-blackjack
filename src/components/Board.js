@@ -50,7 +50,13 @@ class Board extends Component {
   }
 
   resetGame() {
-    console.log('reset game')
+    window.localStorage.clear()
+    this.props.playerContext.setPlayerInfo( '', '' );
+    this.props.playerContext.setHands([]);
+    this.props.roundContext.restart();
+    this.setState({
+      gameHasStarted: false,
+    })
   }
 
   startGame( playerName, playerStack ) {

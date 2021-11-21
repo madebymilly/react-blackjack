@@ -14,6 +14,14 @@ export class RoundProvider extends Component {
     }
   }
 
+  restart = () => {
+    this.setState({
+      isRoundActive: false,
+      roundNum: 0,
+      roundBet: 0
+    })
+  }
+
   activateRound = () => {
     this.setState(prevState => ({
       isRoundActive: true,
@@ -42,7 +50,8 @@ export class RoundProvider extends Component {
         ...this.state, 
         activateRound: this.activateRound,
         deActivateRound: this.deActivateRound,
-        setBet: this.setBet
+        setBet: this.setBet,
+        restart: this.restart
       }}>
         {this.props.children}
       </RoundContext.Provider>
