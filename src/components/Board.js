@@ -136,22 +136,22 @@ class Board extends Component {
   }
 
   doMoveSplit(id) {
-    console.log('do move split')
-    const { playerHands, setHands } = this.props.playerContext;
-
-    console.log(playerHands);
+    const { playerHands, setHands, updateStack } = this.props.playerContext;
+    const tempHands = playerHands;
     const currentBet = playerHands[id].bet;
-    console.log(currentBet);
     const secondCard = playerHands[id].cards[1];
     console.log(secondCard);
     // create a new hand for the player.
     // move second card from this hand to next hand.
-    // TODO: deal two cards immediatable, one to each hand
-    playerHands.push({ id: 1, cards: [secondCard], done: false, bet: currentBet, result: null });
+    const newHand = { id: id+1, cards: [secondCard, this.dealCard()], done: false, bet: currentBet, result: null };
+    tempHands[id].cards.splice(1);
+    tempHands[id].cards.push(this.dealCard());
+    tempHands.push(newHand);
 
-    console.log(playerHands);
+    // update stack:
+    updateStack(currentBet);
     
-    setHands( playerHands );
+    setHands( tempHands );
 
     
   }
@@ -212,9 +212,9 @@ class Board extends Component {
           hand.result = 'lose';
         }
       };
+      updateStack(-amount);
     });
     setHands(tempHands);   
-    updateStack(-amount);
   }
 
   checkEndRound() {

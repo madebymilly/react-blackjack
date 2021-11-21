@@ -32,7 +32,7 @@ class Hand extends Component {
   render() {
     const { hand, bet, moves, done, result, winnings } = this.props;
     const { isRoundActive } = this.props.roundContext;
-    const newMoves = (moves && isRoundActive)
+    const newMoves = (moves && isRoundActive && !done)
       ? <div className="Hand-moves">
         {this.getPossibleMoves().map(move => 
           <Move key={move} move={move} handleMove={this.handleMove} />
