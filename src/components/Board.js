@@ -141,6 +141,20 @@ class Board extends Component {
 
   doMoveDouble(id) {
     console.log('do move double')
+    const newCard = this.dealCard();
+    const playerHands = this.props.playerContext.playerHands;
+
+    // Map through all hands, if hand has the right id, than return hand + new card:
+    // also set hand to done (only one card can be added when double)
+    let tempHands = playerHands.map(function(hand) {
+      if (hand.id === id) {
+        return { ...hand, cards: [...hand.cards, newCard], done: true }
+      } else {
+        return hand;
+      }
+    });
+
+    this.props.playerContext.setHands(tempHands, this.checkEndRound);
   }
 
   getBankCardsTill17() {
@@ -219,7 +233,8 @@ class Board extends Component {
   }
 
   dealFirstCards(bet) {
-    const dealtCardsToPlayer = [this.dealCard(), this.dealCard()];
+    //const dealtCardsToPlayer = [this.dealCard(), this.dealCard()];
+    const dealtCardsToPlayer = [{rank: 5, suit: 'clubs', value: 5}, {rank: 6, suit: 'hearts', value: 6}];
     const dealtCardToBank = [this.dealCard()];
     this.props.playerContext.setHands([{ id: 0, cards: dealtCardsToPlayer, done: false, bet: bet, result: null }]);
     this.setState(prevState => ({

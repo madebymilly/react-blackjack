@@ -7,7 +7,7 @@ XX 2. End Round
 
 3. Split Move
 
-4. Double Move
+XX 4. Double Move
 
 5. Moves
   - remove or refactor default value of switch statement
@@ -16,4 +16,7 @@ XX 2. End Round
 XX 6. Reset game functionality
 
 7. What happens if stacksize is 0?
+
+8. Ace is 11 or 1
+
 
