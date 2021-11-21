@@ -1,9 +1,9 @@
 XX 1. Add 'bet' to hand / seperate from roundBet.
 
-2. End Round
+XX 2. End Round
   - XX compare bank & player hands
   - XX show winnings
-  - update stacksize
+  - XX update stacksize
 
 3. Split Move
 

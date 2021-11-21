@@ -155,25 +155,36 @@ class Board extends Component {
   }
 
   checkWinnings() {
+    const { playerHands, setHands, updateStack } = this.props.playerContext;
+    const tempHands = playerHands;
+
     const totalBank = getTotalValue(this.state.bank.hand);
-    const playerHands = this.props.playerContext.playerHands;
+
+    let amount = 0;
 
     // loop trough all hands:
-    playerHands.forEach(hand => {
-      const totalHand = getTotalValue(hand.cards)
+    tempHands.forEach(hand => {
+      const totalHand = getTotalValue(hand.cards);
+      const winAmount = hand.bet * 2;
+      const tieAmount = hand.bet;
       if ( hand.result === null && hand.done ) {
         if ( totalBank > 21 ) {
           hand.result = 'win';
+          hand.winnings = amount = winAmount;
         } else if ( totalBank === totalHand ) {
           hand.result = 'tie';
+          hand.winnings = amount = tieAmount;
         } else if ( totalBank < totalHand ) {
           hand.result = 'win';
+          hand.winnings = amount = winAmount;
+
         } else {
           hand.result = 'lose';
         }
       };
     });
-    this.props.playerContext.setHands(playerHands);   
+    setHands(tempHands);   
+    updateStack(amount);
   }
 
   checkEndRound() {

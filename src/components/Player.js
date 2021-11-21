@@ -29,7 +29,17 @@ class Player extends Component {
         </div>
         <div className="Player-hands">
           {playerHands.map(hand =>
-            <Hand key={hand.id} id={hand.id} hand={hand.cards} bet={hand.bet} result={hand.result} done={hand.done} moves={moves} doMove={doMove} />
+            <Hand 
+              key={hand.id} 
+              id={hand.id} 
+              hand={hand.cards} 
+              bet={hand.bet} 
+              result={hand.result} 
+              done={hand.done} 
+              winnings={hand.winnings} 
+              moves={moves} 
+              doMove={doMove} 
+            />
           )}
         </div>
         {!isRoundActive &&

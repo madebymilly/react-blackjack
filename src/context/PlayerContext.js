@@ -30,9 +30,9 @@ export class PlayerProvider extends Component {
     })
   }
 
-  updateStack = (bet) => {
+  updateStack = (amount) => {
     this.setState(prevState => ({
-      playerStack: prevState.playerStack - bet
+      playerStack: prevState.playerStack - amount
     }), () => {
       storeToLocalStorage( 'playerStack', this.state.playerStack )
     })
