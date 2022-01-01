@@ -1,3 +1,13 @@
+## BlackJack (React)
+Project from 2021, to better understand how to build a React application.
+Components are mostly class based. No hooks or context used.
+
+Techniques: JavaScript / React.
+
+[Play the game](https://madebymilly.github.io/react-blackjack/)
+
+===========
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
